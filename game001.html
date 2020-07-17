@@ -13,12 +13,20 @@
 		let paddle2Y = 250;
 		const PADDLE_HEIGHT = 100;
 		const PADDLE_THICKNESS = 10;
+
 		var player1Score = 0;
 		var player2Score = 0;
+		const WINNING_SCORE = 10;
+
+		var showingWinScreen = false;
 
 		function ballReset () {
 			ballX = canvas.width/2;
 			ballY = canvas.height/2;
+			if (player1Score >= WINNING_SCORE || player2Score >= WINNING_SCORE) {
+				player1Score = player2Score = 0;
+				showingWinScreen = true;
+			}
 		}
 
 		function calculateMousePos (evt) {
@@ -51,6 +59,12 @@
 		}
 
 		function drawEverything () {
+			if (showingWinScreen) {
+				canvasContext.fillStyle = "gold";
+				canvasContext.fillText("Click to continue", 100, 100);
+				return;
+			}
+
 			// Draw the teneis court
 			colorRect(0, 0, canvas.width, canvas.height, 'black');
 
@@ -69,20 +83,26 @@
 		}
 
 		function moveEverything() {
+			if (showingWinScreen) { return; }
+
 			computerMovement();
 			ballX += ballSpeedX;
 			if (ballX < 0) {
 				if (ballY < paddle1Y || ballY > paddle1Y+PADDLE_HEIGHT) {
+					player2Score++;	// most be BEFORE ballReset()
 					ballReset();
-					player2Score++;
 				}
 				ballSpeedX = -ballSpeedX;
+				let deltaY = ballY - (paddle1Y+PADDLE_HEIGHT/2);
+				ballSpeedY = deltaY*0.35;
 			} else if (ballX > canvas.width) {
 				if (ballY < paddle2Y || ballY > paddle2Y+PADDLE_HEIGHT) {
+					player1Score++;	// most be BEFORE ballReset()
 					ballReset();
-					player1Score++;
 				}
 				ballSpeedX = -ballSpeedX;
+				let deltaY = ballY - (paddle2Y+PADDLE_HEIGHT/2);
+				ballSpeedY = deltaY*0.35;
 			}
 			ballY += ballSpeedY;
 			if (ballY > canvas.height || ballY < 0) {
