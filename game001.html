@@ -1,8 +1,19 @@
 <html>
-	The JavaScript Game Programming has started!
-	<b>This text is thick</b> and <i>this text is slanted</i> and this text is nromal.
-
+	Game Cavas
+	<canvas id="gameCanvas" width="800" height="600"></canvas>
 	<script>
-		console.log("Hello, World!")
+		var canvas;
+		var canvasContext;
+		window.onload = () => {
+			console.log("Hello, World!");
+			canvas = document.getElementById("gameCanvas");
+			canvasContext = canvas.getContext('2d');
+			canvasContext.fillStyle = 'black';
+			canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+			canvasContext.fillStyle = 'white';
+			canvasContext.fillRect(225, 210, 200, 200);
+			canvasContext.fillStyle = 'red';
+			canvasContext.fillRect(canvas.width/2, 200, 50, 25);
+		};		
 	</script>
 </html>
