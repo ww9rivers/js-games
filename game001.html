@@ -8,14 +8,25 @@
 		var ballX = 50;
 		let ballSpeedX = 5;
 
-		function colorRect (leftX, topY, width, height, color) {
-			canvasContext.fillStyle = color;
+		function colorCircle (centerX, centerY, radius, drawColor) {
+			canvasContext.fillStyle = drawColor;
+			canvasContext.beginPath();
+			canvasContext.arc(centerX, centerY, radius, 0, Math.PI*2, true);
+			canvasContext.fill();
+		}
+		function colorRect (leftX, topY, width, height, drawColor) {
+			canvasContext.fillStyle = drawColor;
 			canvasContext.fillRect(leftX, topY, width, height);
 		}
 		function drawEverything () {
+			// Draw the teneis court
 			colorRect(0, 0, canvas.width, canvas.height, 'black');
+
+			// This is the left player paddle
 			colorRect(1, 210, 10, 100, 'white');
-			colorRect(ballX, 200, 10, 10, 'red');
+
+			// Next draw the ball
+			colorCircle(ballX, 100, 10, 'green');
 		}
 		function moveEverything() {
 			ballX += ballSpeedX;
