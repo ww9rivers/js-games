@@ -13,6 +13,8 @@
 		let paddle2Y = 250;
 		const PADDLE_HEIGHT = 100;
 		const PADDLE_THICKNESS = 10;
+		var player1Score = 0;
+		var player2Score = 0;
 
 		function ballReset () {
 			ballX = canvas.width/2;
@@ -39,6 +41,15 @@
 			canvasContext.fillRect(leftX, topY, width, height);
 		}
 
+		function computerMovement () {
+			let paddle2YCenter = paddle2Y+PADDLE_HEIGHT/2;
+			if (paddle2YCenter < ballY-25) {
+				paddle2Y += 6;
+			} else if (paddle2YCenter > ballY+25) {
+				paddle2Y -= 6;
+			}
+		}
+
 		function drawEverything () {
 			// Draw the teneis court
 			colorRect(0, 0, canvas.width, canvas.height, 'black');
@@ -51,18 +62,25 @@
 
 			// Next draw the ball
 			colorCircle(ballX, ballY, 10, 'green');
+
+			// Display score
+			canvasContext.fillText(player1Score, 100, 100);
+			canvasContext.fillText(player2Score, canvas.width-100, 100);
 		}
 
 		function moveEverything() {
+			computerMovement();
 			ballX += ballSpeedX;
 			if (ballX < 0) {
 				if (ballY < paddle1Y || ballY > paddle1Y+PADDLE_HEIGHT) {
 					ballReset();
+					player2Score++;
 				}
 				ballSpeedX = -ballSpeedX;
 			} else if (ballX > canvas.width) {
 				if (ballY < paddle2Y || ballY > paddle2Y+PADDLE_HEIGHT) {
 					ballReset();
+					player1Score++;
 				}
 				ballSpeedX = -ballSpeedX;
 			}
