@@ -6,19 +6,21 @@
 		var canvasContext;
 		// Shape of ball
 		var ballX = 50;
+		let ballSpeedX = 5;
 
+		function colorRect (leftX, topY, width, height, color) {
+			canvasContext.fillStyle = color;
+			canvasContext.fillRect(leftX, topY, width, height);
+		}
 		function drawEverything () {
-			canvasContext.fillStyle = 'black';
-			canvasContext.fillRect(0, 0, canvas.width, canvas.height);
-			canvasContext.fillStyle = 'white';
-			canvasContext.fillRect(1, 210, 10, 100);
-			canvasContext.fillStyle = 'red';
-			canvasContext.fillRect(ballX, 200, 10, 10);
+			colorRect(0, 0, canvas.width, canvas.height, 'black');
+			colorRect(1, 210, 10, 100, 'white');
+			colorRect(ballX, 200, 10, 10, 'red');
 		}
 		function moveEverything() {
-			ballX += 5;
-			if (ballX > canvas.width) {
-				ballX = 0;
+			ballX += ballSpeedX;
+			if (ballX > canvas.width || ballX < 0) {
+				ballSpeedX = -ballSpeedX;
 			}
 		}
 		window.onload = () => {
