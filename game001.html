@@ -1,19 +1,29 @@
 <html>
-	Game Cavas
+	Game Cavas<br/>
 	<canvas id="gameCanvas" width="800" height="600"></canvas>
 	<script>
 		var canvas;
 		var canvasContext;
-		window.onload = () => {
-			console.log("Hello, World!");
-			canvas = document.getElementById("gameCanvas");
-			canvasContext = canvas.getContext('2d');
+		// Shape of ball
+		var ballX = 50;
+
+		function drawEverything () {
 			canvasContext.fillStyle = 'black';
 			canvasContext.fillRect(0, 0, canvas.width, canvas.height);
 			canvasContext.fillStyle = 'white';
 			canvasContext.fillRect(225, 210, 200, 200);
+			console.log(`Draw ball at ${ballX}`);
 			canvasContext.fillStyle = 'red';
-			canvasContext.fillRect(canvas.width/2, 200, 50, 25);
+			canvasContext.fillRect(ballX, 200, 10, 10);
+			ballX += 5;
+			if (ballX > canvas.width) {
+				ballX = 0;
+			}
+		}
+		window.onload = () => {
+			canvas = document.getElementById("gameCanvas");
+			canvasContext = canvas.getContext('2d');
+			setInterval(drawEverything, 20);
 		};		
 	</script>
 </html>
