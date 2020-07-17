@@ -11,10 +11,11 @@
 			canvasContext.fillStyle = 'black';
 			canvasContext.fillRect(0, 0, canvas.width, canvas.height);
 			canvasContext.fillStyle = 'white';
-			canvasContext.fillRect(225, 210, 200, 200);
-			console.log(`Draw ball at ${ballX}`);
+			canvasContext.fillRect(1, 210, 10, 100);
 			canvasContext.fillStyle = 'red';
 			canvasContext.fillRect(ballX, 200, 10, 10);
+		}
+		function moveEverything() {
 			ballX += 5;
 			if (ballX > canvas.width) {
 				ballX = 0;
@@ -23,7 +24,11 @@
 		window.onload = () => {
 			canvas = document.getElementById("gameCanvas");
 			canvasContext = canvas.getContext('2d');
-			setInterval(drawEverything, 20);
+			const framesPerSecond = 30;
+			setInterval(() => {
+				drawEverything();
+				moveEverything();
+			}, 1000/framesPerSecond);
 		};		
 	</script>
 </html>
