@@ -1,0 +1,79 @@
+<html>
+	<head>
+
+	</head>
+<body>
+	<h1>Tennis Game</h1>
+	<p></p>
+	<hr />
+	<canvas id="gameCanvas" width="600" height="800"></canvas>
+	<hr />
+
+	<script>
+		var canvas;
+		var canvasContext;
+		var ballx, bally;
+		var vx = 6, vy = 6;
+		const PADDLE_WIDTH = 80;
+		const PADDLE_HEIGHT = 16;
+		const FPS = 30;
+		var intervalId;
+		var pad1x, pad2x;
+
+		function colorRect (x, y, w, h, color='white') {
+			canvasContext.fillStyle = color;
+			canvasContext.fillRect(x, y, w, h);
+		}
+		function drawBall () {
+			const RADIUS = 12;
+			canvasContext.beginPath();
+			canvasContext.arc(ballx, bally, RADIUS, 0, 2 * Math.PI, false);
+			canvasContext.fillStyle = 'green';
+			canvasContext.fill();
+		}
+		function drawNet() {
+			colorRect(0, canvas.height/2-1, canvas.width, 2);
+		}
+		function drawPaddle(x, y) {
+			colorRect(x, y, PADDLE_WIDTH, PADDLE_HEIGHT, 'blue');
+		}
+		function drawEverything () {
+			colorRect(0, 0, canvas.width, canvas.height, '#9999AA');
+			// draw the net
+			drawNet();
+			// draw computer paddle
+			drawPaddle(pad1x, 0);
+			// draw player paddle
+			drawPaddle(pad2x, canvas.height-PADDLE_HEIGHT);
+			// draw tennis ball
+			drawBall();
+		}
+		function resetBall () {
+			ballx = canvas.width/2;
+			bally = canvas.height/2;
+		}
+		function moveEverything () {
+			ballx += vx;
+			bally += vy;
+			if (ballx <= 0 || ballx >= canvas.width) {
+				vx = -vx;
+			}
+			if (bally <= PADDLE_HEIGHT || bally >= canvas.height-PADDLE_HEIGHT) {
+				vy = -vy;
+			}
+		}
+		window.onload = () => {
+			console.log("Hello, Earth!");
+			console.log("Hello, World!");
+			canvas = document.getElementById("gameCanvas");
+			canvasContext = canvas.getContext('2d');
+			pad1x = pad2x = (canvas.width-PADDLE_WIDTH)/2;
+			resetBall();
+			intervalId = setInterval(() => {
+				drawEverything();
+				moveEverything();
+			}, 1000/FPS);
+		}
+	</script>
+</body>
+</html>
