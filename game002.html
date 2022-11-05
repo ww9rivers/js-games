@@ -2,9 +2,9 @@
 	<head>
 
 	</head>
-<body>
-	<h1>Tennis Game</h1>
-	<p></p>
+<body style="color:red;">
+	<h1 style="color:blue;">Tennis Game</h1>
+	<p>Have fun!</p>
 	<hr />
 	<canvas id="gameCanvas" width="600" height="800"></canvas>
 	<hr />
@@ -19,7 +19,15 @@
 		const FPS = 30;
 		var intervalId;
 		var pad1x, pad2x;
+		var points1 = 0, points2 = 0;
 
+		function calculateMousePos (evt) {
+			let rect = canvas.getBoundingClientRect();
+			let root = document.documentElement;
+			let mouseX = evt.clientX - rect.left - root.scrollLeft;
+			let mouseY = evt.clientY - rect.top - root.scrollTop;
+			return { x:mouseX, y:mouseY};
+		}
 		function colorRect (x, y, w, h, color='white') {
 			canvasContext.fillStyle = color;
 			canvasContext.fillRect(x, y, w, h);
@@ -48,9 +56,23 @@
 			// draw tennis ball
 			drawBall();
 		}
+		function movePaddle1 () {
+			if (ballx < pad1x-PADDLE_WIDTH/2) {
+				pad1x -= 6;
+			} else if (ballx > pad1x+PADDLE_WIDTH/2) {
+				pad1x += 6;
+			}
+		}
+		function movePaddle2 (evt) {
+			// How?
+			pad2x = calculateMousePos(evt).x - PADDLE_WIDTH/2;
+		}
 		function resetBall () {
 			ballx = canvas.width/2;
 			bally = canvas.height/2;
+		}
+		function outside_paddle (padx) {
+			return ballx < padx-PADDLE_WIDTH/2 || ballx > padx+PADDLE_WIDTH/2;
 		}
 		function moveEverything () {
 			ballx += vx;
@@ -58,8 +80,21 @@
 			if (ballx <= 0 || ballx >= canvas.width) {
 				vx = -vx;
 			}
-			if (bally <= PADDLE_HEIGHT || bally >= canvas.height-PADDLE_HEIGHT) {
+			if (bally <= 0 || bally >= canvas.height) {
 				vy = -vy;
+			}
+			movePaddle1();
+
+			// Scoring
+			if (bally <= 0 && outside_paddle(pad1x)) {
+				points2 += 1;
+				resetBall();
+				console.log(points1, points2);
+			}
+			if (bally >= canvas.height && outside_paddle(pad2x)) {
+				points1 += 1;
+				resetBall();
+				console.log(points1, points2);
 			}
 		}
 		window.onload = () => {
@@ -73,6 +108,9 @@
 				drawEverything();
 				moveEverything();
 			}, 1000/FPS);
+
+			// Move paddle with mouse move
+			canvas.addEventListener('mousemove', evt => movePaddle2(evt));
 		}
 	</script>
 </body>
