@@ -72,29 +72,31 @@
 			bally = canvas.height/2;
 		}
 		function outside_paddle (padx) {
-			return ballx < padx-PADDLE_WIDTH/2 || ballx > padx+PADDLE_WIDTH/2;
+			return ballx < padx || ballx > padx+PADDLE_WIDTH;
 		}
 		function moveEverything () {
-			ballx += vx;
+			movePaddle1();
 			bally += vy;
-			if (ballx <= 0 || ballx >= canvas.width) {
-				vx = -vx;
-			}
-			if (bally <= 0 || bally >= canvas.height) {
+			// Scoring
+			if (bally <= 0) {
+				if (outside_paddle(pad1x)) {
+					points2 += 1;
+					resetBall();
+					console.log(points1, points2);
+				}
+				vy = -vy;
+			} else if (bally >= canvas.height) {
+				if (outside_paddle(pad2x)) {
+					points1 += 1;
+					resetBall();
+					console.log(points1, points2);
+				}
 				vy = -vy;
 			}
-			movePaddle1();
 
-			// Scoring
-			if (bally <= 0 && outside_paddle(pad1x)) {
-				points2 += 1;
-				resetBall();
-				console.log(points1, points2);
-			}
-			if (bally >= canvas.height && outside_paddle(pad2x)) {
-				points1 += 1;
-				resetBall();
-				console.log(points1, points2);
+			ballx += vx;
+			if (ballx <= 0 || ballx >= canvas.width) {
+				vx = -vx;
 			}
 		}
 		window.onload = () => {
