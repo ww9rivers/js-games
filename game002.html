@@ -20,6 +20,7 @@
 		var intervalId;
 		var pad1x, pad2x;
 		var points1 = 0, points2 = 0;
+		var debugging = true;
 
 		function calculateMousePos (evt) {
 			let rect = canvas.getBoundingClientRect();
@@ -81,6 +82,7 @@
 			if (bally <= 0) {
 				if (outside_paddle(pad1x)) {
 					points2 += 1;
+					if (debugging) stopGame();
 					resetBall();
 					console.log(points1, points2);
 				}
@@ -99,17 +101,21 @@
 				vx = -vx;
 			}
 		}
-		window.onload = () => {
-			console.log("Hello, Earth!");
-			console.log("Hello, World!");
-			canvas = document.getElementById("gameCanvas");
-			canvasContext = canvas.getContext('2d');
-			pad1x = pad2x = (canvas.width-PADDLE_WIDTH)/2;
-			resetBall();
+		function startGame () {
 			intervalId = setInterval(() => {
 				drawEverything();
 				moveEverything();
 			}, 1000/FPS);
+		}
+		function stopGame () {
+			clearInterval(intervalId);
+		}
+		window.onload = () => {
+			canvas = document.getElementById("gameCanvas");
+			canvasContext = canvas.getContext('2d');
+			pad1x = pad2x = (canvas.width-PADDLE_WIDTH)/2;
+			resetBall();
+			startGame();
 
 			// Move paddle with mouse move
 			canvas.addEventListener('mousemove', evt => movePaddle2(evt));
