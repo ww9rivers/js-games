@@ -82,16 +82,15 @@
 			if (bally <= 0) {
 				if (outside_paddle(pad1x)) {
 					points2 += 1;
-					if (debugging) stopGame();
 					resetBall();
-					console.log(points1, points2);
+					console.log("Player points:", points2);
 				}
 				vy = -vy;
 			} else if (bally >= canvas.height) {
 				if (outside_paddle(pad2x)) {
 					points1 += 1;
 					resetBall();
-					console.log(points1, points2);
+					console.log("Computer points:", points1);
 				}
 				vy = -vy;
 			}
@@ -100,6 +99,12 @@
 			if (ballx <= 0 || ballx >= canvas.width) {
 				vx = -vx;
 			}
+		}
+		function initializeGame () {
+			canvas = document.getElementById("gameCanvas");
+			canvasContext = canvas.getContext('2d');
+			pad1x = pad2x = (canvas.width-PADDLE_WIDTH)/2;
+			resetBall();
 		}
 		function startGame () {
 			intervalId = setInterval(() => {
@@ -111,10 +116,7 @@
 			clearInterval(intervalId);
 		}
 		window.onload = () => {
-			canvas = document.getElementById("gameCanvas");
-			canvasContext = canvas.getContext('2d');
-			pad1x = pad2x = (canvas.width-PADDLE_WIDTH)/2;
-			resetBall();
+			initializeGame();
 			startGame();
 
 			// Move paddle with mouse move
