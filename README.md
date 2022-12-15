@@ -18,6 +18,10 @@ Same game as [001](#001-tennis-game) but changed the court orientation (landscap
 
 A simple Sudoku board game.
 
+## 004: The 2048 Game
+
+An implementation of the 2048 game using [Vue.js](https://vuejs.org).
+
 ## Author
 
 Wei Wang <ww@9rivers.com>
