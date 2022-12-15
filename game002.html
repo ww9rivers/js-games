@@ -14,13 +14,14 @@
 		var canvasContext;
 		var ballx, bally;
 		var vx = 6, vy = 6;
-		const PADDLE_WIDTH = 80;
-		const PADDLE_HEIGHT = 16;
+		const PADDLE_WIDTH = 100;
+		const PADDLE_HEIGHT = 10;
 		const FPS = 30;
 		var intervalId;
 		var pad1x, pad2x;
-		var points1 = 0, points2 = 0;
+		var points1, points2;
 		var debugging = true;
+		const WINNING_SCORE = 6;
 
 		function calculateMousePos (evt) {
 			let rect = canvas.getBoundingClientRect();
@@ -46,8 +47,15 @@
 		function drawPaddle(x, y) {
 			colorRect(x, y, PADDLE_WIDTH, PADDLE_HEIGHT, 'blue');
 		}
+		function drawScores () {
+			// Display score
+			canvasContext.fillStyle = 'white';
+			canvasContext.fillText(points1, 100, 100);
+			canvasContext.fillText(points2, 100, canvas.height-100);
+		}
 		function drawEverything () {
 			colorRect(0, 0, canvas.width, canvas.height, '#9999AA');
+			drawScores();
 			// draw the net
 			drawNet();
 			// draw computer paddle
@@ -71,6 +79,15 @@
 		function resetBall () {
 			ballx = canvas.width/2;
 			bally = canvas.height/2;
+
+			if (points1 >= WINNING_SCORE || points2 >= WINNING_SCORE) {
+				drawScores();
+				canvasContext.fillStyle = "gold";
+				canvasContext.fillText((points1 > points2) ? "Computer won!" : "Player won!", 200, 350);
+				canvasContext.fillText("Click to continue", 200, 500);
+				stopGame();
+				canvas.addEventListener('mouseup', restartGame);
+			}
 		}
 		function outside_paddle (padx) {
 			return ballx < padx || ballx > padx+PADDLE_WIDTH;
@@ -104,7 +121,13 @@
 			canvas = document.getElementById("gameCanvas");
 			canvasContext = canvas.getContext('2d');
 			pad1x = pad2x = (canvas.width-PADDLE_WIDTH)/2;
+			points1 = points2 = 0;
 			resetBall();
+		}
+		function restartGame () {
+			canvas.removeEventListener('mouseup', restartGame);
+			initializeGame();
+			startGame();
 		}
 		function startGame () {
 			intervalId = setInterval(() => {
