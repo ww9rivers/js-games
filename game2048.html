@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<!-- Reference: https://gist.github.com/madan712/b648eaa311f1bf0e7dd5 -->
 	<head>
@@ -5,51 +6,30 @@
 			integrity="sha512-3CesFAr6COyDB22AiVG2erk2moD1FeL3VMx6UezptTW3qmYdcQhfv6yDGmH4ICNTxd0Rs2AbMQ0Q5lG7J/8n3Q=="
 			crossorigin="anonymous"
 			referrerpolicy="no-referrer"></script>
-		<style>
-			.row { border: 4px solid grey;
-				display: flex;
-				height: 4rem; width: 20rem;
-				background-color: grey;
-				margin: 0; }
-			.cell { border: 4px solid grey;
-				padding: 0; margin: 0;
-				background-color: antiquewhite;
-				height: 4rem; width: 25%;
-			}
-			.cell2 { background-color: beige; }
-			.cell4 { background-color: cadetblue; }
-			.cell8 { background-color: burlywood; }
-			.cell16 { background-color: chocolate; }
-			.cell32 { background-color: coral; }
-			.cell64 { background-color: darkgoldenrod; }
-			.cell128 { background-color: darkorange; }
-			.cell256 { background-color: darkkhaki; }
-			.cell512 { background-color: coral; }
-			.cell1024 { background-color: darksalmon; }
-			.cell2048 { background-color: deeppink; }
-			.cell4096 { background-color: deepskyblue; }
-			.cell8192 { background-color: deepskyblue; }
-			.cell16384 { background-color: chartreuse; }
-			.cell32768 { background-color: gold; }
-		</style>
+		<link rel="stylesheet" href="./game2048.css">
 	</head>
-	<body style="font-family:Georgia, serif; margin:0; padding:0;">
+	<body>
 
-	<div id="app" style="margin:0; padding:0;"">
-	<div tabindex="0" ref="game" style="height:100%; border:0; background-color:lightgrey; margin:0; padding:0;"
+	<div id="app">
+	<div id="canvas" tabindex="0" ref="game"
 		@keyup.left="left"
 		@keyup.right="right"
 		@keyup.up="up"
 		@keyup.down="down">
 	<div style="padding:32px;">
-		<h1>The 2048 Game</h1>
-		<button @click="new_game()">New Game</button>
+		<div class="heading">
+			<h1>The 2048 Game</h1>
+			<button @click="new_game()">New Game</button>
+		</div>
 
 		<div v-for="(row, i) in grid">
-			<div class="row">
-				<div class="cell cell8" v-for="(col, j) in row">{{ grid[i][j]||'' }}</div>
+			<div :class="i<3 ? 'row' : 'row row4'">
+				<div :class="cell_class(i, j)" v-for="(col, j) in row">
+					<div>{{ grid[i][j]||'' }}</div>
+				</div>
 			</div>
 		</div>
+		<hr />
 		Score: {{score}}
 		High Score: {{ high_score }}
 		<h2>Instructions:</h2>
@@ -57,52 +37,9 @@
 			<li>Use arrow keys to play the game;</li>
 			<li>Click the New Game button to reset.</li>
 		</ul>
-		</div>
 	</div>
 	</div>
-	<script>
-		const { createApp } = Vue;
-
-		var app = createApp({
-			data() {
-				return {
-					grid: [	[0, 0, 0, 0],
-						[0, 0, 0, 0],
-						[0, 0, 0, 0],
-						[0, 0, 0, 0] ],
-					score: 0,
-					high_score: 0
-				};
-			},
-			methods: {
-				new_game () {
-					this.grid = [	[0, 0, 0, 0],
-							[0, 0, 0, 0],
-							[0, 0, 0, 0],
-							[0, 0, 0, 0] ];
-				},
-				left () {
-					this.grid[0][0] = 2;
-					this.grid[1][1] = 2;
-				},
-				right () {
-					this.grid[0][0] = 4;
-				},
-				up () {
-					this.grid[0][0] = 8;
-				},
-				down () {
-					this.grid[0][0] = 16;
-				},
-				random_cell () {
-					return Math.floor(Math.random()*this.grid.length);
-				}
-			},
-			mounted() {
-				this.$refs.game.focus()
-			}
-		});
-		app.mount('#app');
-	</script>
+	</div>
+	<script src="./game2048.js"></script>
 	</body>
 </html>
