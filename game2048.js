@@ -22,6 +22,7 @@ var app = createApp({
 					[0, 0, 0, 0] ];
 			this.random_cell();
 			this.random_cell();
+			score = 0;
 		},
 		left () {
 			this.grid[0][0] = 2048;
@@ -34,7 +35,7 @@ var app = createApp({
 			this.grid[0][0] = 8192;
 		},
 		down () {
-			this.grid[0][0] = 16;
+			this.grid[0][0] = 16384;
 		},
 		random_cell () {
 			let rows = this.grid.length;
