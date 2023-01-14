@@ -23,7 +23,7 @@
 		</div>
 
 		<div v-for="(row, i) in grid">
-			<div :class="i<3 ? 'row' : 'row row4'">
+			<div :class="i<grid.length-1 ? 'row' : 'row row4'">
 				<div :class="cell_class(i, j)" v-for="(col, j) in row">
 					<div>{{ grid[i][j]||'' }}</div>
 				</div>
