@@ -50,7 +50,7 @@ body { font-family:Georgia, serif;
 .cell64 { background-color: darkgoldenrod; }
 .cell128 { background-color: darkorange; }
 .cell256 { background-color: darkkhaki; }
-.cell512 { background-color: coral; }
+.cell512 { background-color: greenyellow; }
 .cell1024 { background-color: darksalmon; }
 .cell2048 { background-color: deeppink; }
 .cell4096 { background-color: deepskyblue; }
