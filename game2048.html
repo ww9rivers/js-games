@@ -16,9 +16,10 @@
 		@keyup.right="right"
 		@keyup.up="up"
 		@keyup.down="down">
-	<div style="padding:32px;">
+	<div class="board">
+		<h1>The 2048 Game</h1>
 		<div class="heading">
-			<h1>The 2048 Game</h1>
+			<span>Hello, <input placeholder="name" v-model="name">!</span>
 			<button @click="new_game()">New Game</button>
 		</div>
 
@@ -30,8 +31,9 @@
 			</div>
 		</div>
 		<hr />
-		Score: {{score}}
-		High Score: {{ high_score }}
+		<div class="inline">Score: {{score}}</div>
+		<div class="inline right">High Score: {{ high_score }}</div>
+
 		<h2>Instructions:</h2>
 		<ul>
 			<li>Use arrow keys to play the game;</li>

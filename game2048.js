@@ -7,6 +7,7 @@ var app = createApp({
 	data() {
 		return {
 			grid: [],
+			name,
 			score: 0,
 			high_score: 0
 		};
@@ -31,34 +32,24 @@ var app = createApp({
 			this.random_cell();
 			this.score = 0;
 		},
-		left () {
+		x_move (dir) {
 			let changed = 0;
 			for (let i in this.grid) {
-				changed += this.x_merge(i, -1) + this.x_shift(i, -1);
+				changed += this.x_merge(i, dir) + this.x_shift(i, dir);
 			}
 			if (changed) { this.random_cell(); }
 		},
-		right () {
-			let changed = 0;
-			for (let i in this.grid) {
-				changed += this.x_merge(i, 1) + this.x_shift(i, 1);
-			}
-			if (changed) { this.random_cell(); }
-		},
-		up () {
+		left ()	{ this.x_move(-1); },
+		right () { this.x_move(1); },
+		y_move (dir) {
 			let changed = 0;
 			for (let j in this.grid[0]) {
-				changed += this.y_merge(j, -1) + this.y_shift(j, -1);
+				changed += this.y_merge(j, dir) + this.y_shift(j, dir);
 			}
 			if (changed) { this.random_cell(); }
 		},
-		down () {
-			let changed = 0;
-			for (let j in this.grid[0]) {
-				changed += this.y_merge(j, 1) + this.y_shift(j, 1);
-			}
-			if (changed) { this.random_cell(); }
-		},
+		up () { this.y_move(-1); },
+		down () { this.y_move(1); },
 		random_cell () {
 			let rows = this.grid.length;
 			let cols = this.grid[0].length;
@@ -159,14 +150,23 @@ var app = createApp({
 			return changed;
 		},
 		unmount () {
-			localStorage.setItem('game2048_high_score', this.high_score);
+			localStorage.setItem('game2048', JSON.stringify({
+				grid: this.grid,
+				name: this.name,
+				score: this.score,
+				high_score: this.high_score
+			}));
 		}
 	},
 	mounted() {
-		this.$refs.game.focus();
-		this.high_score = localStorage.getItem('game2048_high_score');
 		this.new_game();
-		window.addEventListener("beforeunload",	this.unmount);
+		this.$refs.game.focus();
+		let saved = JSON.parse(localStorage.getItem('game2048'))||{};
+		this.grid = saved.grid;
+		this.name = saved.name;
+		this.score = saved.score||0;
+		this.high_score = saved.high_score||0;
+		addEventListener("beforeunload", this.unmount);
 	}
 });
 app.mount('#app');
