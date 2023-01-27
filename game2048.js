@@ -162,7 +162,7 @@ var app = createApp({
 		this.new_game();
 		this.$refs.game.focus();
 		let saved = JSON.parse(localStorage.getItem('game2048'))||{};
-		this.grid = saved.grid;
+		this.grid = saved.grid||this.grid;
 		this.name = saved.name;
 		this.score = saved.score||0;
 		this.high_score = saved.high_score||0;
