@@ -22,6 +22,21 @@ var app = createApp({
 		cell_class (i, j) {
 			return "cell cell"+this.grid[i][j];
 		},
+		game_over () {
+			let i = 0;
+			for (let row of this.grid) {
+				let row1 = (this.grid[++i])||[];
+				let j = 0;
+				for (let col of row) {
+					if (col == 0 || col == row[j+1] || col == row1[j]) {
+						return false;
+					}
+					j++;
+				}
+			}
+			alert("Game over!");
+			return true;
+		},
 		new_game () {
 			this.grid = [	[0, 0, 0, 0],
 					[0, 0, 0, 0],
@@ -59,7 +74,7 @@ var app = createApp({
 			do {
 				if  (this.grid[i][j] < 1) {
 					this.grid[i][j] = (Math.floor(Math.random()*1.2)+1)*2;
-					return;
+					return this.game_over();
 				}
 				if (++j >= cols) {
 					j = 0;
@@ -69,7 +84,7 @@ var app = createApp({
 				}
 			} while (i != i0 || j != j0);
 			// Game over
-			window.alert("Game over!");
+			return this.game_over();
 		},
 		row_class (i) {
 			return i<3 ? "row" : "row row4";
