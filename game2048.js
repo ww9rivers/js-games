@@ -34,6 +34,7 @@ var app = createApp({
 					j++;
 				}
 			}
+			this.top10 = [this.score, ...this.top10].sort((a,b)=>(b-a)).slice(0, 10);
 			alert("Game over!");
 			return true;
 		},
@@ -169,7 +170,8 @@ var app = createApp({
 				grid: this.grid,
 				name: this.name,
 				score: this.score,
-				high_score: this.high_score
+				high_score: this.high_score,
+				top10: this.top10
 			}));
 		}
 	},
@@ -181,6 +183,7 @@ var app = createApp({
 		this.name = saved.name;
 		this.score = saved.score||0;
 		this.high_score = saved.high_score||0;
+		this.top10 = saved.top10||[this.high_score,this.high_score==this.score?0:this.score];
 		addEventListener("beforeunload", this.unmount);
 	}
 });

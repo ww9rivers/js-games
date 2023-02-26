@@ -41,6 +41,12 @@
 		</ul>
 	</div>
 	</div>
+	<h3>Top 10 Scores:</h3>
+	<ol class="top10">
+		<li v-for="(row) in top10">
+			<span v-if="row">{{row}}</span>
+		</li>
+	</ol>
 	</div>
 	<script src="./game2048.js"></script>
 	</body>
