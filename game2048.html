@@ -2,15 +2,16 @@
 <html>
 	<!-- Reference: https://gist.github.com/madan712/b648eaa311f1bf0e7dd5 // This line is a comment -->
 	<head>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.45/vue.global.prod.min.js"
-			integrity="sha512-3CesFAr6COyDB22AiVG2erk2moD1FeL3VMx6UezptTW3qmYdcQhfv6yDGmH4ICNTxd0Rs2AbMQ0Q5lG7J/8n3Q=="
+		<!-- Vue.js update: https://cdnjs.com/libraries/vue -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.34/vue.global.prod.min.js"
+			integrity="sha512-1hxGD9LXSNGzmemQ5BcMfydi5UXXotRI9+N5N6sPj1oUjzTS69wd5Cv5kO57cCEpESnq9B2CC33sghse7W6HQQ=="
 			crossorigin="anonymous"
 			referrerpolicy="no-referrer"></script>
 		<link rel="stylesheet" href="./game2048.css">
 	</head>
 	<body>
 
-	<div id="app">
+	<div id="app" class="center-content">
 	<div id="canvas" tabindex="0" ref="game"
 		@keyup.left="left"
 		@keyup.right="right"
