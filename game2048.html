@@ -25,7 +25,7 @@
 		<h1>The 2048 Game</h1>
 		<div class="heading">
 			<span>Hello, <input placeholder="name" v-model="name">!</span>
-			<button @click="new_game()">New Game</button>
+			<button @click="new_game()" ref="reset">New Game</button>
 		</div>
 
 		<div v-for="(row, i) in grid">
@@ -60,7 +60,7 @@
 				<button class="modal-close" @click="closeModal">&times;</button>
 				<h2>Game Over!</h2>
 				<p>Thank you for playing the game.</p>
-				<button @click="closeModal">Play Again!</button>
+				<button @click="closeModal" ref="again">Play Again!</button>
 			</div>
 		</div>
 	</div>

@@ -37,10 +37,12 @@ var app = createApp({
 			}
 			this.top10 = [this.score, ...this.top10].sort((a,b)=>(b-a)).slice(0, 10);
 			this.showModal = true;
+			this.$refs.again.focus();
 			return true;
 		},
 		closeModal() {
 			this.showModal = false;
+			this.$refs.reset.focus();
 		},
 		new_game () {
 			this.grid = [	[0, 0, 0, 0],
@@ -51,6 +53,7 @@ var app = createApp({
 			this.random_cell();
 			this.random_cell();
 			this.score = 0;
+			this.$refs.game	.focus();
 		},
 		x_move (dir) {
 			let changed = 0;
@@ -179,9 +182,18 @@ var app = createApp({
 			}));
 		}
 	},
+	watch: {
+		showModal(newVal) {
+			if (newVal) {
+				this.$nextTick(() => {
+					this.$refs.again.focus();
+				});
+
+			}
+		}
+	},
 	mounted() {
 		this.new_game();
-		this.$refs.game.focus();
 		let saved = JSON.parse(localStorage.getItem('game2048'))||{};
 		this.grid = saved.grid||this.grid;
 		this.name = saved.name;
