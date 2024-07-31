@@ -9,7 +9,8 @@ var app = createApp({
 			grid: [],
 			name,
 			score: 0,
-			high_score: 0
+			high_score: 0,
+			showModal: false
 		};
 	},
 	methods: {
@@ -35,8 +36,11 @@ var app = createApp({
 				}
 			}
 			this.top10 = [this.score, ...this.top10].sort((a,b)=>(b-a)).slice(0, 10);
-			alert("Game over!");
+			this.showModal = true;
 			return true;
+		},
+		closeModal() {
+			this.showModal = false;
 		},
 		new_game () {
 			this.grid = [	[0, 0, 0, 0],
@@ -187,4 +191,10 @@ var app = createApp({
 		addEventListener("beforeunload", this.unmount);
 	}
 });
+const focusDirective = {
+	mounted(el) {
+		el.focus();
+	}
+};
+app.directive('focus', focusDirective);
 app.mount('#app');

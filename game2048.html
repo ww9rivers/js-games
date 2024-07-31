@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<!-- Reference: https://gist.github.com/madan712/b648eaa311f1bf0e7dd5 // This line is a comment -->
 	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>2048!</title>
 		<!-- Vue.js update: https://cdnjs.com/libraries/vue -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.34/vue.global.prod.min.js"
 			integrity="sha512-1hxGD9LXSNGzmemQ5BcMfydi5UXXotRI9+N5N6sPj1oUjzTS69wd5Cv5kO57cCEpESnq9B2CC33sghse7W6HQQ=="
@@ -13,6 +16,7 @@
 
 	<div id="app" class="center-content">
 	<div id="canvas" tabindex="0" ref="game"
+		v-focus tabindex="0"
 		@keyup.left="left"
 		@keyup.right="right"
 		@keyup.up="up"
@@ -48,6 +52,17 @@
 			<span v-if="row">{{row}}</span>
 		</li>
 	</ol>
+
+		<!-- Game over dialog -->
+		<div class="modal" :class="{ show: showModal }">
+			<div class="modal-overlay" @click="closeModal"></div>
+			<div class="modal-content">
+				<button class="modal-close" @click="closeModal">&times;</button>
+				<h2>Game Over!</h2>
+				<p>Thank you for playing the game.</p>
+				<button @click="closeModal">Play Again!</button>
+			</div>
+		</div>
 	</div>
 	<script src="./game2048.js"></script>
 	</body>
